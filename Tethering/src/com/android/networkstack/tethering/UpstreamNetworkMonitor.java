@@ -57,7 +57,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
 /**
  * A class to centralize all the network and link properties information
  * pertaining to the current and any potential upstream network.
@@ -137,7 +136,6 @@ public class UpstreamNetworkMonitor {
     private Network mDefaultInternetNetwork;
     // The current upstream network used for tethering.
     private Network mTetheringUpstreamNetwork;
-
     // Set if the Internet is considered reachable via a VPN network
     private Network mVpnInternetNetwork;
 
@@ -201,6 +199,7 @@ public class UpstreamNetworkMonitor {
         mListenAllCallback = null;
 
         mTetheringUpstreamNetwork = null;
+        mVpnInternetNetwork = null;
         mNetworkMap.clear();
     }
 
@@ -338,7 +337,6 @@ public class UpstreamNetworkMonitor {
                         Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS, 0) == 1) {
             return mNetworkMap.get(mVpnInternetNetwork);
         }
-
         final UpstreamNetworkState dfltState = (mDefaultInternetNetwork != null)
                 ? mNetworkMap.get(mDefaultInternetNetwork)
                 : null;
@@ -381,7 +379,6 @@ public class UpstreamNetworkMonitor {
 
     private void handleNetCap(Network network, NetworkCapabilities newNc) {
         if (isVpnInternetNetwork(newNc)) mVpnInternetNetwork = network;
-
         final UpstreamNetworkState prev = mNetworkMap.get(network);
         if (prev == null || newNc.equals(prev.networkCapabilities)) {
             // Ignore notifications about networks for which we have not yet
@@ -672,7 +669,7 @@ public class UpstreamNetworkMonitor {
 
     private static boolean isVpnInternetNetwork(NetworkCapabilities nc) {
         return (nc != null) && !nc.hasCapability(NET_CAPABILITY_NOT_VPN) &&
-               nc.hasCapability(NET_CAPABILITY_INTERNET);
+                nc.hasCapability(NET_CAPABILITY_INTERNET);
     }
 
     private static UpstreamNetworkState findFirstDunNetwork(
