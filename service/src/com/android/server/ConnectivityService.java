@@ -93,7 +93,6 @@ import static java.util.Map.Entry;
 import android.Manifest;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
-import android.annotation.UserIdInt;
 import android.app.AppOpsManager;
 import android.app.BroadcastOptions;
 import android.app.PendingIntent;
@@ -10346,10 +10345,5 @@ public class ConnectivityService extends IConnectivityManager.Stub
             netcap.addTransportType(TRANSPORT_TEST);
             return createNetworkRequest(NetworkRequest.Type.REQUEST, netcap);
         }
-    }
-
-    @Override
-    public void onPackagePermissionChanged(int uid) {
-        mPermissionMonitor.onInternetPermissionChanged(uid);
     }
 }
